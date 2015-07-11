@@ -19,8 +19,7 @@ def allowed_file(filename):
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_F            # return redirect(url_for('uploaded_file',
-            # filename=filename))OLDER'],
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
 
