@@ -1,8 +1,9 @@
-import image_proc
+# import image_proc
 import json
 import os
 from flask import Flask, request, url_for, redirect, send_from_directory
 from werkzeug.utils import secure_filename
+import Image
 
 app = Flask(__name__)
 
@@ -18,7 +19,8 @@ def allowed_file(filename):
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
+    return send_from_directory(app.config['UPLOAD_F            # return redirect(url_for('uploaded_file',
+            # filename=filename))OLDER'],
                                filename)
 
 
@@ -29,14 +31,15 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            im = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            base_name, file_extension = os.path.splitext(filename)
+            im.save(os.path.join(app.config['UPLOAD_FOLDER'], base_name + '.png'))
             return json.dumps([])
-            # return redirect(url_for('uploaded_file',
-            #                         filename=filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>f
+    <form action="" method=post enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>

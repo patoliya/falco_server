@@ -57,5 +57,5 @@ def getMatches():
         # show the result
         sorted_list.append(str(k))
         # print sorted_list(i)
-        print "name : " + str(k) + " value :" + str(v)
+        print("name : " + str(k) + " value :" + str(v))
     return sorted_list[1:]
