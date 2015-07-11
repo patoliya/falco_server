@@ -25,14 +25,18 @@ def init():
                             [0, 256, 0, 256, 0, 256])
         hist = cv2.normalize(hist).flatten()
         index[filename] = hist
-        print('executed')
+    print('executed')
 
 
-methodName = "Chi-Squared"
-method = cv2.cv.CV_COMP_CHISQR
+# methodName = "Chi-Squared"
+# method = cv2.cv.CV_COMP_CHISQR
+
+methodName = "Hellinger"
+method = cv2.cv.CV_COMP_BHATTACHARYYA
 
 
 def getMatches():
+    init()
     results = {}
     reverse = False
 
@@ -60,4 +64,4 @@ def getMatches():
         sorted_list.append(str(k))
         # print sorted_list(i)
         print("name : " + str(k) + " value :" + str(v))
-    return sorted_list[1:]
+    return sorted_list[2:]

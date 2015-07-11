@@ -1,7 +1,9 @@
-import image_proc
 import json
+from flask import Response
+import image_proc
 import os
 from flask import Flask, request, url_for, redirect, send_from_directory
+import flask
 from werkzeug.utils import secure_filename
 import Image
 
@@ -23,6 +25,7 @@ def uploaded_file(filename):
                                filename)
 
 
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -33,8 +36,14 @@ def upload_file():
             im = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             base_name, file_extension = os.path.splitext(filename)
             im.save(os.path.join(app.config['UPLOAD_FOLDER'], base_name + '.png'))
-            print ' '.join(image_proc.getMatches())
-            return json.dumps([])
+            res = image_proc.getMatches()
+            arr = []
+            for fn in res:
+                arr.append('/uploads/' + fn)
+            ky = {'key': arr}
+            dat = json.dumps(ky)
+            resp = Response(response=dat, status=200, mimetype="application/json")
+            return(resp)
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -47,5 +56,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    image_proc.init()
     app.run(host='0.0.0.0', debug=True)

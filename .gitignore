@@ -3,3 +3,4 @@ __pycache__/
 uploads/doge.png
 uploads/doge.jpg
 uploads/doge.jpeg
+*.pyc
