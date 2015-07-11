@@ -1,4 +1,4 @@
-# import image_proc
+import image_proc
 import json
 import os
 from flask import Flask, request, url_for, redirect, send_from_directory
@@ -7,7 +7,7 @@ import Image
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = '/home/jaydeep/Documents/python/falco/uploads'
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'uploads/')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -33,6 +33,7 @@ def upload_file():
             im = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             base_name, file_extension = os.path.splitext(filename)
             im.save(os.path.join(app.config['UPLOAD_FOLDER'], base_name + '.png'))
+            print ' '.join(image_proc.getMatches())
             return json.dumps([])
     return '''
     <!doctype html>
@@ -46,4 +47,5 @@ def upload_file():
 
 
 if __name__ == '__main__':
+    image_proc.init()
     app.run(host='0.0.0.0', debug=True)
